@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Website Pendidikan Gizi - Nabila Aysha Aulia</title>
+  <style>
+    :root{
+      --soto-blue: #2b90a8;
+      --bg:#f7fbfc;
+      --card:#ffffff;
+      --muted:#666;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:0; background:var(--bg); color:#111; transition:background 0.4s ease;}
+    header{background: linear-gradient(90deg, rgba(43,144,168,0.95), rgba(11,114,133,0.95)); color:white; padding:20px 20px; text-align:center;}
+    header h1{margin:0;font-size:20px;letter-spacing:0.3px}
+    header p{margin:6px 0 0;font-size:14px;opacity:0.95}
+    nav{display:flex;gap:10px; justify-content:center; padding:12px; background:var(--soto-blue); position:sticky; top:0; z-index:10;}
+    .btn{background:white; color:var(--soto-blue); border-radius:8px; padding:10px 14px; border:none; cursor:pointer; font-weight:600; transition:0.3s}
+    .btn:hover{background:#e8f7fa;}
+    .btn.active{background:#e8f7fa; border:2px solid #1d6f85;}
+    .container{max-width:900px;margin:24px auto;padding:18px;transition:all 0.4s ease;}
+    .card{background:var(--card); border-radius:12px; padding:18px; box-shadow:0 6px 18px rgba(12,45,60,0.06); opacity:0; transform:translateY(10px); transition:opacity 0.4s ease, transform 0.4s ease;}
+    .card.show{opacity:1; transform:translateY(0);}    
+    .muted{color:var(--muted)}
+    .hidden{display:none}
+    .warning{color:red; font-size:14px; margin-top:4px;}
+    .section-title{font-size:18px;margin-bottom:8px;color:var(--soto-blue)}
+    label{display:block;margin:8px 0 4px;font-weight:600}
+    input[type=number], select{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd}
+    .result{margin-top:12px;padding:12px;border-radius:8px;background:#f1f9fb}
+    footer{max-width:900px;margin:18px auto;text-align:center;color:var(--muted);font-size:13px}
+    #riwayatIMT{margin-top:20px; background:#fff; padding:10px; border-radius:8px; box-shadow:0 0 6px rgba(0,0,0,0.1);} 
+    #riwayatIMT ul{margin:0;padding-left:18px;}
+    #makroForm{margin-top:16px; background:#fff; padding:12px; border-radius:8px; box-shadow:0 0 6px rgba(0,0,0,0.1);}
+    #notifMakro{color:red; font-weight:600; margin-top:6px;}
+    .inline-row{display:flex;gap:8px}
+    .inline-row > *{flex:1}
+    .small{font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>UIN Walisongo Semarang</h1>
+    <p>Fakultas Psikologi dan Kesehatan · Program Studi Gizi</p>
+  </header>
+
+  <nav id="main-nav">
+    <button class="btn active" data-section="home" id="btn-home">Home</button>
+    <button class="btn" data-section="definisi" id="btn-definisi">Definisi</button>
+    <button class="btn" data-section="pengukuran" id="btn-pengukuran">Pengukuran</button>
+    <button class="btn" data-section="kalori" id="btn-kalori">Kebutuhan Kalori</button>
+  </nav>
+
+  <div class="container">
+    <div class="card show" id="home">
+      <h2 class="section-title">Home</h2>
+      <p><strong>Selamat Datang di Website Perhitungan Status Gizi dan Kebutuhan Kalori!</strong></p>
+      <p>Website ini dibuat untuk memenuhi tugas mata kuliah <strong>Pendidikan Gizi</strong> oleh <strong>Nabila Aysha Aulia</strong> NIM <strong>23070260031</strong> kelas <strong>Gizi 5B</strong>.</p>
+      <p>Di website ini, anda akan menemukan beberapa hal sebagai berikut:</p>
+      <ul>
+        <li>Definisi status gizi menurut WHO dan PERKEMENKES RI.</li>
+        <li>Kalkulator IMT (Indeks Massa Tubuh) dan Berat Badan Ideal (BBI)</li>
+        <li>Perhitungan kebutuhan kalori menggunakan <strong>Rumus Harris-Benedict</strong> dan kebutuhan makronutrien <strong>(karbohidrat, protein, dan lemak)</strong>.</li>
+      </ul>
+    </div>
+
+    <div class="card hidden" id="definisi">
+      <h2 class="section-title">Definisi Status Gizi</h2>
+      <h3>Menurut WHO</h3>
+      <p>Status gizi merupakan kondisi kesehatan yang menunjukkan keseimbangan antara kebutuhan nutrisi dan asupan yang diterima tubuh, serta menjadi tolok ukur untuk menilai pertumbuhan. WHO menekankan bahwa status gizi optimal adalah kunci untuk mencegah penyakit tidak menular dan mendukung pertumbuhan serta perkembangan yang sehat.</p>
+      <h3>Menurut PERKEMENKES RI</h3>
+      <p>Menurut PERKEMENKES RI No. 75 Tahun 2013 tentang Standar Antropometri Anak, status gizi adalah keadaan tubuh seseorang yang dipengaruhi oleh asupan makanan, status kesehatan, dan faktor lingkungan. Di Indonesia, status gizi dievaluasi melalui indikator seperti IMT untuk dewasa, serta berat badan menurut umur (BB/U) dan tinggi badan menurut umur (TB/U) untuk anak-anak. Pemerintah menargetkan penurunan prevalensi masalah gizi melalui program seperti Posyandu dan pemberian suplemen gizi.</p>
+    </div>
+
+    <div class="card hidden" id="pengukuran">
+      <h2 class="section-title">Pengukuran IMT dan BBI</h2>
+      <p><strong>Indeks Massa Tubuh (IMT)</strong> adalah  ukuran sederhana untuk mengklasifikasikan apakah seseorang memiliki berat badan yang sehat berdasarkan tinggi dan berat badannya atau dengan kata lain status gizi. IMT digunakan secara luas untuk skrining status gizi pada dewasa (minimal usia 18 tahun).</p>
+      <p><strong>Rumus IMT:</strong> IMT = Berat (kg) / (Tinggi (m))²</p>
+      <p><strong>Rumus BBI:</strong> (Tinggi (cm) – 100) – [(Tinggi (cm) – 100) × 10%]<br>Jika perempuan &lt;150 cm atau laki-laki &lt;180 cm, maka BBI = Tinggi (cm) – 100</p>
+      <p><strong>Catatan: BBI biasanya digunakan sebagai standar capaian berat badan ketika melakukan program diet. Jika anda ingin membuat program diet, gunakan hasil perhitungan berat badan ideal (BBI) sebagai standar berat badan yang akan anda capai.</strong></p>
+
+      <h3>Klasifikasi IMT:</h3>
+      <ul>
+        <li>&lt;17.0: Kurus Berat</li>
+        <li>17.1–18.4: Kurus Ringan</li>
+        <li>18.5–25.0: Normal</li>
+        <li>25.1–27.0: Berat Badan lebih</li>
+        <li>≥27.1: Obesitas</li>
+      </ul>
+
+      <h3>Kalkulator IMT & BBI</h3>
+      <label>Usia (tahun)</label>
+      <input id="usia" type="number" placeholder="Masukkan usia">
+      <div id="peringatanUsia" class="warning hidden"></div>
+
+      <label>Jenis Kelamin</label>
+      <select id="gender">
+        <option value="">Pilih Jenis Kelamin</option>
+        <option value="Laki-laki">Laki-laki</option>
+        <option value="Perempuan">Perempuan</option>
+      </select>
+
+      <label>Berat (kg)</label>
+      <input id="berat" type="number" placeholder="Masukkan berat badan">
+
+      <label>Tinggi (cm)</label>
+      <input id="tinggi" type="number" placeholder="Masukkan tinggi badan">
+
+      <div class="inline-row" style="margin-top:8px;">
+        <button class="btn" id="btnHitungIMT">Hitung IMT & BBI</button>
+        <button class="btn" id="btnResetIMT">Reset</button>
+      </div>
+
+      <div id="hasilIMT" class="result hidden"></div>
+      <div id="saranIMT" class="muted"></div>
+
+      <div id="riwayatIMT" class="hidden">
+        <h3>Riwayat Perhitungan</h3>
+        <ul id="riwayatList"></ul>
+        <button class="btn" id="btnResetRiwayat">Reset Riwayat</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="kalori">
+      <h2 class="section-title">Perhitungan Kebutuhan Kalori (Harris-Benedict)</h2>
+      <p>Rumus ini digunakan untuk menghitung <strong>BMR (Basal Metabolic Rate)</strong> dan <strong>TEE (Total Energy Expenditure)</strong>.</p>
+      <p>Rumus ini hanya digunakan pada kondisi dengan status gizi normal dan tanpa adanya riwayat sakit atau sedang dalam keadaan tidak sehat. Apabila status gizi anda tidak normal silahkan konsultasi dengan ahli gizi untuk perhitungan kebutuhan kalori harian anda.</p>
+
+      <h3>Rumus BMR:</h3>
+      <ul>
+        <li><strong>Wanita:</strong> BMR = 655 + (9.6 × Berat(kg)) + (1.8 × Tinggi(cm)) − (4.7 × Usia(tahun))</li>
+        <li><strong>Laki-laki:</strong> BMR = 66.5 + (13.7 × Berat(kg)) + (5.0 × Tinggi(cm)) − (6.8 × Usia(tahun))</li>
+      </ul>
+
+      <h3>Rumus TEE:</h3>
+      <p>TEE = BMR × Faktor Aktivitas</p>
+
+      <label>Usia (tahun)</label>
+      <input id="kaloriUsia" type="number" placeholder="Masukkan usia">
+
+      <label>Jenis Kelamin</label>
+      <select id="kaloriGender">
+        <option value="">Pilih Jenis Kelamin</option>
+        <option value="Laki-laki">Laki-laki</option>
+        <option value="Perempuan">Perempuan</option>
+      </select>
+
+      <label>Berat (kg)</label>
+      <input id="kaloriBerat" type="number" placeholder="Masukkan berat badan">
+
+      <label>Tinggi (cm)</label>
+      <input id="kaloriTinggi" type="number" placeholder="Masukkan tinggi badan">
+
+      <label>Faktor Aktivitas</label>
+      <select id="aktivitas">
+        <option value="">Pilih faktor aktivitas</option>
+        <option value="1.2">Sangat ringan (berbaring di tempat tidur)</option>
+        <option value="1.3">Ringan (dapat turun dari tempat tidur)</option>
+        <option value="1.7">Sedang (kerja banyak duduk dan sedikit atau tidak ada aktivitas olahraga)</option>
+        <option value="1.8">Berat (kerja berdiri atau melakukan olahraga atau kegiatan berat (30-60 menit/5-4x/minggu)</option>
+        <option value="2.2">Sangat berat (pekerjaan berat atau olahraga aktif setiap hari)</option>
+      </select>
+
+      <div style="margin-top:8px;" class="inline-row">
+        <button class="btn" id="btnHitungKalori">Hitung Kalori</button>
+        <button class="btn" id="btnResetKalori">Reset</button>
+      </div>
+
+      <div id="hasilKalori" class="result hidden"></div>
+
+      <!-- Tombol pembagian makro (muncul setelah hitung kalori) -->
+      <div style="margin-top:10px;">
+        <button class="btn hidden" id="btnMakro">Pembagian Kebutuhan Makronutrien</button>
+      </div>
+
+      <!-- Form makro -->
+      <div id="makroForm" class="hidden" style="margin-top:10px;">
+        <div id="makroFormInner" style="padding:12px; border-radius:8px; background:#fff; box-shadow:0 0 6px rgba(0,0,0,0.06);">
+          <p class="small"><strong>Rekomendasi:</strong><br>Karbohidrat = 60–75%<br>Lemak = 10–25%<br>Protein = 10–15%</p>
+          <label>Karbohidrat (%)</label>
+          <input id="karboPersen" type="number" placeholder="Contoh: 65" min="60" max="75">
+          <label>Lemak (%)</label>
+          <input id="lemakPersen" type="number" placeholder="Contoh: 20" min="10" max="25">
+          <label>Protein (%)</label>
+          <input id="proteinPersen" type="number" placeholder="Contoh: 15" min="10" max="15">
+
+          <div class="inline-row" style="margin-top:8px;">
+            <button class="btn" id="btnHitungMakro">Hitung Makronutrien</button>
+            <button class="btn" id="btnResetMakro">Reset Makro</button>
+          </div>
+
+          <div id="notifMakro" class="small" style="margin-top:8px;color:red;"></div>
+          <div id="hasilMakro" class="result hidden" style="margin-top:8px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>© 2025 Nabila Aysha Aulia - Website Tugas Pendidikan Gizi</footer>
+
+  <script>
+    // Restored full interactive script
+    document.addEventListener('DOMContentLoaded', function () {
+      let riwayat = [];
+      let teeTerakhir = 0;
+
+      function showSection(id) {
+        const sections = document.querySelectorAll('.card');
+        sections.forEach(el => { el.classList.add('hidden'); el.classList.remove('show'); });
+        const target = document.getElementById(id);
+        if (!target) return;
+        target.classList.remove('hidden');
+        setTimeout(() => target.classList.add('show'), 40);
+        document.querySelectorAll('nav .btn').forEach(b => b.classList.remove('active'));
+        const btn = document.querySelector(`#btn-${id}`);
+        if (btn) btn.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      window.showSection = showSection;
+
+      // IMT elements
+      const usiaEl = document.getElementById('usia');
+      const genderEl = document.getElementById('gender');
+      const beratEl = document.getElementById('berat');
+      const tinggiEl = document.getElementById('tinggi');
+      const hasilIMT = document.getElementById('hasilIMT');
+      const peringatanUsia = document.getElementById('peringatanUsia');
+      const saranIMT = document.getElementById('saranIMT');
+
+      usiaEl.addEventListener('input', function () {
+        const usia = parseInt(this.value);
+        if (!isNaN(usia) && usia < 18) {
+          peringatanUsia.textContent = '⚠️ Perhitungan IMT hanya berlaku untuk usia 18 tahun ke atas.';
+          peringatanUsia.classList.remove('hidden');
+        } else {
+          peringatanUsia.textContent = '';
+          peringatanUsia.classList.add('hidden');
+        }
+      });
+
+      function hitungIMT() {
+        const usia = parseInt(usiaEl.value);
+        const gender = genderEl.value;
+        const berat = parseFloat(beratEl.value);
+        const tinggiCm = parseFloat(tinggiEl.value);
+        if (isNaN(usia) || usia <= 0 || !gender || isNaN(berat) || berat <= 0 || isNaN(tinggiCm) || tinggiCm <= 0) {
+          alert('Harap isi semua data dengan benar.');
+          return;
+        }
+        const tinggi = tinggiCm / 100;
+        const imt = berat / (tinggi * tinggi);
+        let kategori = '', bahaya = '', saran = '';
+
+        if (imt < 17) { kategori = 'Kurus Berat'; bahaya = 'Kekurangan energi kronis (KEK), risiko infeksi tinggi, dan gangguan pertumbuhan.'; saran = 'Tingkatkan asupan kalori dengan makanan bergizi seperti nasi, daging, telur, dan susu; konsultasi dokter untuk suplemen jika diperlukan dengan repep dokter; konsultasi dengan ahli gizi untuk program diet; dan olahraga ringan minimal 150 menit/minggu seperti jalan kaki untuk membentuk massa otot.'; }
+        else if (imt <= 18.4) { kategori = 'Kurus Ringan'; bahaya = 'Risiko malnutrisi ringan, mudah kelelahan, dan penurunan imunitas.'; saran = 'Konsumsi makanan tinggi protein dan lemak sehat (kacang-kacangan, ikan); makan 3 kali sehari plus camilan bergizi; pantau berat badan secara rutin; konsultasi dengan ahi gizi untuk program diet; dan olahraga ringan minimal 150 menit/minggu seperti jalan kaki untuk membentuk massa otot.'; }
+        else if (imt <= 25) { kategori = 'Normal'; bahaya = 'Tidak ada bahaya signifikan.'; saran = 'Pertahankan pola makan seimbang dan aktivitas fisik minimal olahraga ringan 150 menit/minggu seperti jalan kaki untuk membentuk massa ototsecara rutin untuk menjaga kesehatan tubuh.'; }
+        else if (imt <= 27) { kategori = 'Berat Badan lebih'; bahaya = 'Risiko diabetes tipe 2, hipertensi, dan penyakit jantung.'; saran = 'Kurangi kalori harian dengan diet seimbang (sayur, buah, kurangi gula dan gorengan); olahraga 150 menit/minggu seperti jalan kaki untuk membentuk massa otot dan mengurangi massa lemak ; konsultasi ahli gizi untuk program diet.'; }
+        else { kategori = 'Obesitas'; bahaya = 'Obesitas sentral, penyakit jantung, diabetes, risiko kanker, dan gangguan sendi.'; saran = 'Program penurunan berat bertahap (0.5–1 kg/minggu) melalui diet rendah kalori dan tinggi serat; olahraga secara teratur minimal 150 menit/minggu untuk membentuk massa otot dan mengurangi massa lemak; screening medis untuk komorbiditas atau konsultasi dengan ahli gizi untuk program diet.'; }
+
+        // BBI
+        let bbi = 0;
+        if ((gender === 'Perempuan' && tinggiCm < 150) || (gender === 'Laki-laki' && tinggiCm < 180)) {
+          bbi = tinggiCm - 100;
+        } else {
+          bbi = (tinggiCm - 100) - ((tinggiCm - 100) * 0.1);
+        }
+
+        hasilIMT.classList.remove('hidden');
+        hasilIMT.innerHTML = `IMT: ${imt.toFixed(2)} (${kategori})<br><strong>BBI:</strong> ${bbi.toFixed(2)} kg`;
+        saranIMT.innerHTML = `<strong>Bahaya:</strong> ${bahaya}<br><strong>Saran:</strong> ${saran}`;
+
+        riwayat.unshift(`Tanggal: ${new Date().toLocaleString()} | Usia: ${usia} | Gender: ${gender} | IMT: ${imt.toFixed(2)} (${kategori}) | BBI: ${bbi.toFixed(2)} kg`);
+        if (riwayat.length > 10) riwayat.pop();
+        tampilkanRiwayat();
+      }
+
+      function tampilkanRiwayat() {
+        const list = document.getElementById('riwayatList'); if (!list) return;
+        list.innerHTML = riwayat.length ? riwayat.map(i => `<li>${i}</li>`).join('') : '<li>Belum ada riwayat.</li>';
+        const box = document.getElementById('riwayatIMT'); if (box) box.classList.remove('hidden');
+      }
+
+      function resetIMT() { ['usia', 'gender', 'berat', 'tinggi'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; }); hasilIMT.classList.add('hidden'); saranIMT.innerHTML = ''; }
+
+      function resetRiwayat() { if (confirm('Apakah Anda yakin ingin menghapus seluruh riwayat perhitungan?')) { riwayat.length = 0; tampilkanRiwayat(); } }
+
+      // Kalori + Makro functions
+      function hitungKalori() {
+        const usia = parseInt(document.getElementById('kaloriUsia').value);
+        const gender = document.getElementById('kaloriGender').value;
+        const berat = parseFloat(document.getElementById('kaloriBerat').value);
+        const tinggi = parseFloat(document.getElementById('kaloriTinggi').value);
+        const aktivitas = parseFloat(document.getElementById('aktivitas').value);
+        if (isNaN(usia) || usia <= 0 || !gender || isNaN(berat) || berat <= 0 || isNaN(tinggi) || tinggi <= 0 || isNaN(aktivitas)) {
+          alert('Harap isi semua data dengan benar.');
+          return;
+        }
+
+        let bmr = 0;
+        if (gender === 'Laki-laki') {
+          bmr = 66.5 + (13.7 * berat) + (5.0 * tinggi) - (6.8 * usia);
+        } else {
+          bmr = 655 + (9.6 * berat) + (1.8 * tinggi) - (4.7 * usia);
+        }
+
+        const tee = bmr * aktivitas;
+        teeTerakhir = tee;
+
+        const hasil = document.getElementById('hasilKalori');
+        hasil.classList.remove('hidden');
+        hasil.innerHTML = `<strong>BMR:</strong> ${bmr.toFixed(2)} kkal/hari<br><strong>TEE:</strong> ${tee.toFixed(2)} kkal/hari`;
+
+        // show makro button
+        document.getElementById('btnMakro').classList.remove('hidden');
+
+        // hide previous makro results if any
+        document.getElementById('hasilMakro').classList.add('hidden');
+        document.getElementById('notifMakro').innerText = '';
+        document.getElementById('makroForm').classList.add('hidden');
+        // preset recommended default percentages
+        document.getElementById('karboPersen').value = 65;
+        document.getElementById('lemakPersen').value = 20;
+        document.getElementById('proteinPersen').value = 15;
+      }
+
+      function resetKalori() {
+        ['kaloriUsia', 'kaloriGender', 'kaloriBerat', 'kaloriTinggi', 'aktivitas'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+        const hasil = document.getElementById('hasilKalori'); if (hasil) hasil.classList.add('hidden');
+        document.getElementById('btnMakro').classList.add('hidden');
+        document.getElementById('makroForm').classList.add('hidden');
+        document.getElementById('hasilMakro').classList.add('hidden');
+        document.getElementById('notifMakro').innerText = '';
+        teeTerakhir = 0;
+      }
+
+      function toggleMakroForm() {
+        const frm = document.getElementById('makroForm');
+        frm.classList.toggle('hidden');
+        // when showing, ensure defaults are set (if TEE available)
+        if (!frm.classList.contains('hidden')) {
+          if (teeTerakhir > 0) {
+            document.getElementById('karboPersen').value = document.getElementById('karboPersen').value || 65;
+            document.getElementById('lemakPersen').value = document.getElementById('lemakPersen').value || 20;
+            document.getElementById('proteinPersen').value = document.getElementById('proteinPersen').value || 15;
+            document.getElementById('notifMakro').innerText = '';
+            document.getElementById('hasilMakro').classList.add('hidden');
+          } else {
+            document.getElementById('notifMakro').innerText = 'Hitung dulu kebutuhan kalori sebelum membagi makronutrien.';
+            document.getElementById('hasilMakro').classList.add('hidden');
+          }
+        }
+      }
+
+      function hitungMakro() {
+        const notif = document.getElementById('notifMakro');
+        const hasil = document.getElementById('hasilMakro');
+        notif.innerText = '';
+        hasil.classList.add('hidden');
+
+        if (teeTerakhir <= 0) {
+          notif.innerText = 'Hitung dulu kebutuhan kalori terlebih dahulu.';
+          return;
+        }
+
+        const karbo = parseFloat(document.getElementById('karboPersen').value) || 0;
+        const lemak = parseFloat(document.getElementById('lemakPersen').value) || 0;
+        const protein = parseFloat(document.getElementById('proteinPersen').value) || 0;
+        const total = karbo + lemak + protein;
+
+        if (total !== 100) {
+          notif.innerText = '⚠️ Total pembagian makronutrien harus 100% agar hasil valid.';
+          return;
+        }
+
+        // perhitungan gram (kcal per gram: karbo 4, protein 4, lemak 9)
+        const karboGram = (teeTerakhir * (karbo / 100)) / 4;
+        const lemakGram = (teeTerakhir * (lemak / 100)) / 9;
+        const proteinGram = (teeTerakhir * (protein / 100)) / 4;
+
+        hasil.innerHTML = `<strong>Berikut merupakan total kebutuhan makronutrien anda:</strong><br>`
+          + `Karbohidrat: ${karboGram.toFixed(1)} g<br>`
+          + `Lemak: ${lemakGram.toFixed(1)} g<br>`
+          + `Protein: ${proteinGram.toFixed(1)} g`;
+        hasil.classList.remove('hidden');
+      }
+
+      function resetMakro() {
+        document.getElementById('karboPersen').value = '';
+        document.getElementById('lemakPersen').value = '';
+        document.getElementById('proteinPersen').value = '';
+        document.getElementById('notifMakro').innerText = '';
+        document.getElementById('hasilMakro').classList.add('hidden');
+      }
+
+      // wire events
+      // nav buttons
+      document.querySelectorAll('nav .btn').forEach(btn => {
+        btn.addEventListener('click', () => showSection(btn.dataset.section));
+      });
+
+      // IMT events
+      document.getElementById('btnHitungIMT').addEventListener('click', hitungIMT);
+      document.getElementById('btnResetIMT').addEventListener('click', resetIMT);
+      document.getElementById('btnResetRiwayat').addEventListener('click', resetRiwayat);
+      document.getElementById('usia').addEventListener('input', function(){ const usia=parseInt(this.value); if(!isNaN(usia)&&usia<18){peringatanUsia.textContent='⚠️ Perhitungan IMT hanya berlaku untuk usia 18 tahun ke atas.';peringatanUsia.classList.remove('hidden');} else {peringatanUsia.textContent='';peringatanUsia.classList.add('hidden');}});
+
+      // Kalori events
+      document.getElementById('btnHitungKalori').addEventListener('click', hitungKalori);
+      document.getElementById('btnResetKalori').addEventListener('click', resetKalori);
+
+      // Makro events
+      document.getElementById('btnMakro').addEventListener('click', toggleMakroForm);
+      document.getElementById('btnHitungMakro').addEventListener('click', hitungMakro);
+      document.getElementById('btnResetMakro').addEventListener('click', resetMakro);
+
+      // show home on load
+      showSection('home');
+    });
+  </script>
+</body>
+</html>
